@@ -1,1 +1,1 @@
-void start() {}
+extern "C" void boot() {}

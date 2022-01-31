@@ -12,6 +12,9 @@ CXXFLAGS=-O3 -ffreestanding -target ${TARGET}
 all: disk
 
 run: disk
+	qemu-system-x86_64 -boot c -drive file=disk,format=raw
+
+debug: disk
 	qemu-system-x86_64 -boot c -s -S -drive file=disk,format=raw &
 	lldb --one-line 'gdb-remote 1234'
 
