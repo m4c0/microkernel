@@ -21,8 +21,8 @@ debug: disk.bin
 disk.bin: mbr.bin bootstrap.bin
 	cat mbr.bin bootstrap.bin > disk.bin
 
-mbr.bin: mbr.o mbr.ld
-	${LD} -m ${LDTARGET} -o mbr.bin -T mbr.ld --oformat binary
+mbr.bin: mbr.o mbr.ld bootstrap.bin
+	${LD} -m ${LDTARGET} -o mbr.bin -T mbr.ld --oformat binary --defsym bootstrap_size=$(shell stat -f '%z' bootstrap.bin)
 
 mbr.o: mbr.s
 	${CLANG} -target ${TARGET} -c -o mbr.o mbr.s
