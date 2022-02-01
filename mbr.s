@@ -20,5 +20,3 @@ halt:
 
 .org 510
 .short 0xAA55
-
-.string "H@e@l@l@o@ @!@!@              "

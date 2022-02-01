@@ -1,12 +1,12 @@
-ENTRY(start)
+ENTRY(boot)
 INPUT(bootstrap.o)
-INPUT(mbr.o)
 
-/* 0x7c00 */
 SECTIONS {
-  .text : {
-    mbr.o(.text);
-    bootstrap.o(.text);
+  .text 0x100000 : AT(0xc00000) {
+    *(.text);
+  }
+  /DISCARD/ : {
+    *(.comment);
   }
 }
 
