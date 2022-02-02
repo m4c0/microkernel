@@ -15,7 +15,7 @@ run: disk.bin
 	qemu-system-x86_64 -boot c -drive file=disk.bin,format=raw
 
 debug: disk.bin
-	qemu-system-x86_64 -boot c -s -S -drive file=disk,format=raw &
+	qemu-system-x86_64 -boot c -s -S -drive file=disk.bin,format=raw &
 	lldb --one-line 'gdb-remote 1234'
 
 disk.bin: mbr.bin bootstrap.bin
