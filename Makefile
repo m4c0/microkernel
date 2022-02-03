@@ -27,11 +27,12 @@ mbr.bin: mbr.o mbr.ld bootstrap.bin
 mbr.o: mbr.s
 	${CLANG} -target ${TARGET} -c -o mbr.o mbr.s
 
-bootstrap.bin: bootstrap.o linker.ld
-	${LD} -m ${LDTARGET} -o bootstrap.bin -T linker.ld
-
-bootstrap.o: bootstrap.cpp
-	${CLANG} ${CXXFLAGS} -c -o bootstrap.o bootstrap.cpp
+bootstrap.bin: bootstrap.o something.o linker.ld
+	${LD} -m ${LDTARGET} -o bootstrap.bin -T linker.ld --oformat binary
 
 clean:
 	rm -f *.bin *.o
+
+%.o: %.cpp
+	${CLANG} ${CXXFLAGS} -c -o $@ $<
+

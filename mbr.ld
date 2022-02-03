@@ -5,7 +5,7 @@ INPUT(mbr.o)
 SECTIONS {
   .text 0x7c00 : {
     mbr.o(.text.short);
-    . = 0x7d00;
+    . = 0x7c80;
     mbr.o(.text.long);
   }
   .data : {

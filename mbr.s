@@ -65,22 +65,14 @@ start:
   # Engage!
   lidt idt_ptr
   lgdt gdt_ptr
-  jmpl $0x08, $halt
-
-disk_addr_pkt:
-  .byte 0x10 # size
-  .byte 0x0  # reserved
-  .word bootstrap_sec_count
-  .long bootstrap_start
-  .quad 1 # First sector to read
+  jmp $0x08, $boot
 
   .section .text.long
   .code64
+boot:
+  call bootstrap_start
+
 halt:
-  movq $0xb8000, %rdi
-  movq $0x1f201f201f201f20, %rax
-  movq $250, %rcx
-  rep stosq
   hlt
   jmp halt
 
@@ -88,6 +80,13 @@ halt:
 hello:
   .ascii "Hello from MBR..."
   .equ hello_len, . - hello
+
+disk_addr_pkt:
+  .byte 0x10 # size
+  .byte 0x0  # reserved
+  .word bootstrap_sec_count
+  .long bootstrap_start
+  .quad 1 # First sector to read
 
   .align 8
 gdt:
