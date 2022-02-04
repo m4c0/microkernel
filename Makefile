@@ -7,15 +7,20 @@ LDTARGET=elf_x86_64
 
 CXXFLAGS=-O3 -ffreestanding -target ${TARGET}
 
+QEMU=qemu-system-x86_64 -boot c -drive file=disk.bin,format=raw
+
 .PHONY: all clean debug run
 
 all: disk.bin
 
+run-term: disk.bin
+	${QEMU} -display curses
+
 run: disk.bin
-	qemu-system-x86_64 -boot c -drive file=disk.bin,format=raw
+	${QEMU}
 
 debug: disk.bin
-	qemu-system-x86_64 -boot c -s -S -drive file=disk.bin,format=raw &
+	${QEMU} -s -S &
 	lldb --one-line 'gdb-remote 1234'
 
 disk.bin: mbr.bin bootstrap.bin
